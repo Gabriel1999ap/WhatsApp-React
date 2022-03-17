@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import { Chat, DonutLarge, MoreVert, Search } from '@material-ui/icons'
 
-function App() {
+// eslint-disable-next-line import/no-anonymous-default-export
+export default () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="janelaApp">
+      <div className="barraLateral">
+        <header>
+          <img
+            className="cabecalhoAvatar"
+            src="https://www.w3schools.com/howto/img_avatar.png"
+            alt="foto de perfil"
+          />
+          <div className="cabecalhoBotoes">
+            <div className="cabecalhoBtn">
+              <DonutLarge style={{ color: '#919191' }} />
+            </div>
+            <div className="cabecalhoBtn">
+              <Chat style={{ color: '#919191' }} />
+            </div>
+            <div className="cabecalhoBtn">
+              <MoreVert style={{ color: '#919191' }} />
+            </div>
+          </div>
+        </header>
+        <div className="busca">
+          <div className="busca-input">
+            <Search fontSize="small" style={{ color: '#919191' }} />
+            <input
+              type="search"
+              placeholder="Pesquisar ou começar uma nova conversa"
+            />
+          </div>
+        </div>
+        <div className="listaChat">...</div>
+      </div>
+      <div className="areaConteudo">...</div>
     </div>
-  );
+  )
 }
-
-export default App;
