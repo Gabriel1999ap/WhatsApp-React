@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
+
+import ChatListItem from './components/ChatListItem'
+import ChatIntro from './components/ChatIntro'
+
 import { Chat, DonutLarge, MoreVert, Search } from '@material-ui/icons'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
+  const [chatlist, setChatList] = useState([
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ])
   return (
     <div className="janelaApp">
       <div className="barraLateral">
@@ -34,9 +56,15 @@ export default () => {
             />
           </div>
         </div>
-        <div className="listaChat">...</div>
+        <div className="listaChat">
+          {chatlist.map((item, key) => (
+            <ChatListItem key={key} />
+          ))}
+        </div>
       </div>
-      <div className="areaConteudo">...</div>
+      <div className="areaConteudo">
+        <ChatIntro />
+      </div>
     </div>
   )
 }

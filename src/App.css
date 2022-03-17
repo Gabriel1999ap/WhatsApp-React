@@ -65,6 +65,18 @@ header {
   background-color: transparent;
   margin-left: 10px;
 }
-
+.listaChat {
+  flex: 1;
+  background-color: #fff;
+  overflow-y: auto;
+}
+.listaChat::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.listaChat::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+}
 .areaConteudo {
+  flex: 1;
 }
