@@ -3,29 +3,35 @@ import './App.css'
 
 import ChatListItem from './components/ChatListItem'
 import ChatIntro from './components/ChatIntro'
+import ChatWindow from './components/ChatWindow'
 
 import { Chat, DonutLarge, MoreVert, Search } from '@material-ui/icons'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
   const [chatlist, setChatList] = useState([
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {}
+    {
+      chatId: 1,
+      title: 'Fulado de Tal',
+      image: 'https://www.w3schools.com/howto/img_avatar.png'
+    },
+    {
+      chatId: 2,
+      title: 'Fulado de Tal',
+      image: 'https://www.w3schools.com/howto/img_avatar.png'
+    },
+    {
+      chatId: 3,
+      title: 'Fulado de Tal',
+      image: 'https://www.w3schools.com/howto/img_avatar.png'
+    },
+    {
+      chatId: 4,
+      title: 'Fulado de Tal',
+      image: 'https://www.w3schools.com/howto/img_avatar.png'
+    }
   ])
+  const [activeChat, setActiveChat] = useState({})
   return (
     <div className="janelaApp">
       <div className="barraLateral">
@@ -58,12 +64,18 @@ export default () => {
         </div>
         <div className="listaChat">
           {chatlist.map((item, key) => (
-            <ChatListItem key={key} />
+            <ChatListItem
+              key={key}
+              data={item}
+              active={activeChat.chatId === chatlist[key].chatId}
+              onClick={() => setActiveChat(chatlist[key])}
+            />
           ))}
         </div>
       </div>
       <div className="areaConteudo">
-        <ChatIntro />
+        {activeChat.chatId !== undefined && <ChatWindow />}
+        {activeChat.chatId === undefined && <ChatIntro />}
       </div>
     </div>
   )

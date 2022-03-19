@@ -5,7 +5,8 @@ import './ChatIntro.css'
 export default () => {
   return (
     <div className="chatIntro">
-      <img src="https://i.ibb.co/WGDzNR2/a.png" alt="foto de perfil" />
+      <img src="https://i.ibb.co/WGDzNR2/a.png" alt="foto de perfil"></img>
+
       <h1>Mantenha seu celular conectado</h1>
       <h2>
         O WhatsApp conecta ao seu celular para sincronizar suas mensagens.
