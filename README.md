@@ -2,6 +2,14 @@
 
 🚧Em construção🚧
 
+🚧Recursos🚧
+Login de usuário pelo Facebook
+Envio de mensagens
+Criação de conversas
+✅Reconhecimento de fala via microfone
+Envio de emojis
+Armazenamento de chat e usuário via Firebase
+
 <!-- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
