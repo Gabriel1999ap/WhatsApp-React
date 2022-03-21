@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
+import NewChat from './components/NewChat'
 
 import ChatListItem from './components/ChatListItem'
 import ChatIntro from './components/ChatIntro'
@@ -32,20 +33,37 @@ export default () => {
     }
   ])
   const [activeChat, setActiveChat] = useState({})
+  const [user, setUser] = useState({
+    id: 1234,
+    avatar: 'https://www.w3schools.com/howto/img_avatar.png',
+    name: 'Gabriel Almeida'
+  })
+  const [showNewChat, setShowNewChat] = useState(false)
+
+  const handleNewChat = () => {
+    setShowNewChat(true)
+  }
+
   return (
     <div className="janelaApp">
       <div className="barraLateral">
+        <NewChat
+          chatlist={chatlist}
+          user={user}
+          show={showNewChat}
+          setShow={setShowNewChat}
+        />
         <header>
           <img
             className="cabecalhoAvatar"
-            src="https://www.w3schools.com/howto/img_avatar.png"
+            src={user.avatar}
             alt="foto de perfil"
           />
           <div className="cabecalhoBotoes">
             <div className="cabecalhoBtn">
               <DonutLarge style={{ color: '#919191' }} />
             </div>
-            <div className="cabecalhoBtn">
+            <div onClick={handleNewChat} className="cabecalhoBtn">
               <Chat style={{ color: '#919191' }} />
             </div>
             <div className="cabecalhoBtn">
@@ -74,7 +92,7 @@ export default () => {
         </div>
       </div>
       <div className="areaConteudo">
-        {activeChat.chatId !== undefined && <ChatWindow />}
+        {activeChat.chatId !== undefined && <ChatWindow user={user} />}
         {activeChat.chatId === undefined && <ChatIntro />}
       </div>
     </div>

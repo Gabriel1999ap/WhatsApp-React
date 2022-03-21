@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import EmojiPicker from 'emoji-picker-react'
 import './ChatWindow.css'
+
+import MessageItem from './MessageItem'
 
 import {
   InsertEmoticon,
@@ -9,11 +11,14 @@ import {
   MoreVert,
   Close,
   Send,
-  Mic
+  Mic,
+  BorderAll
 } from '@material-ui/icons'
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default () => {
+export default ({ user }) => {
+  const body = useRef()
+
   let recognition = null
   let SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
@@ -24,6 +29,39 @@ export default () => {
   const [emojiOpen, setEmojiOpen] = useState(false)
   const [text, setText] = useState('')
   const [listening, setListening] = useState(false)
+  const [list, setList] = useState([
+    { author: 123, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+    { author: 123, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+
+    { author: 123, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla bla bla' },
+    { author: 1234, body: 'bla bla' },
+    { author: 1234, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+    { author: 123, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+    { author: 123, body: 'bla bla bla' },
+    { author: 123, body: 'bla bla' },
+
+    { author: 1234, body: 'bla bla bla bla' }
+  ])
+
+  useEffect(() => {
+    // para quando chegar mensagem a barra do scroll chegar no final do chat
+    if (body.current.scrollHeight > body.current.offsetHeight) {
+      body.current.scrollTop =
+        body.current.scrollHeight - body.current.offsetHeight
+    }
+  }, [list])
 
   const handleOpenEmoji = () => {
     setEmojiOpen(true)
@@ -56,6 +94,8 @@ export default () => {
 
   return (
     <div className="chatWindow">
+      {/* header do chat com nome de usuario e avatar */}
+
       <div className="chatWindow--header">
         <div className="chatWindow--headerinfo">
           <img
@@ -65,6 +105,7 @@ export default () => {
           />
           <div className="chatWindow--name">Gabriel Almeida</div>
         </div>
+        {/* botões do header */}
 
         <div className="chatWindow--headerbuttons">
           <div className="chatWindow--btn">
@@ -78,8 +119,13 @@ export default () => {
           </div>
         </div>
       </div>
-      <div className="chatWindow--body"></div>
-
+      {/* corpo do chat / body */}
+      <div ref={body} className="chatWindow--body">
+        {list.map((item, key) => (
+          <MessageItem key={key} data={item} user={user} />
+        ))}
+      </div>
+      {/* area de emojis */}
       <div
         className="chatWindowemojiarea"
         style={{ height: emojiOpen ? '200px' : '0px' }}
@@ -90,6 +136,7 @@ export default () => {
           disableSkinTonePicker
         />
       </div>
+      {/* footer do chat com input para mensagem */}
 
       <div className="chatWindow--footer">
         <div className="chatWindow--pre">
@@ -115,6 +162,7 @@ export default () => {
             onChange={(e) => setText(e.target.value)}
           />
         </div>
+        {/*  Validação do emoji mic e botao enviar, ao escrever uma msg o emoji de mic troca automaticamente pelo emoji de enviar */}
         <div className="chatWindow--pos">
           {text === '' && (
             <div onClick={handleMicClick} className="chatWindow--btn">
