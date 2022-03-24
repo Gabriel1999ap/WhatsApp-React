@@ -1,47 +1,43 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-import NewChat from './components/NewChat'
-
+import Login from './components/Login'
 import ChatListItem from './components/ChatListItem'
 import ChatIntro from './components/ChatIntro'
 import ChatWindow from './components/ChatWindow'
+import NewChat from './components/NewChat'
 
 import { Chat, DonutLarge, MoreVert, Search } from '@material-ui/icons'
+import Api from './Api'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
-  const [chatlist, setChatList] = useState([
-    {
-      chatId: 1,
-      title: 'Fulado de Tal',
-      image: 'https://www.w3schools.com/howto/img_avatar.png'
-    },
-    {
-      chatId: 2,
-      title: 'Fulado de Tal',
-      image: 'https://www.w3schools.com/howto/img_avatar.png'
-    },
-    {
-      chatId: 3,
-      title: 'Fulado de Tal',
-      image: 'https://www.w3schools.com/howto/img_avatar.png'
-    },
-    {
-      chatId: 4,
-      title: 'Fulado de Tal',
-      image: 'https://www.w3schools.com/howto/img_avatar.png'
-    }
-  ])
+  const [chatlist, setChatList] = useState([])
   const [activeChat, setActiveChat] = useState({})
   const [user, setUser] = useState({
-    id: 1234,
-    avatar: 'https://www.w3schools.com/howto/img_avatar.png',
-    name: 'Gabriel Almeida'
+    id: 'svpduR1NK4PkijzE9Kzj3ik7bDx2',
+    name: 'Gabriel Almeida',
+    avatar: 'https://graph.facebook.com/2507905516010332/picture'
   })
   const [showNewChat, setShowNewChat] = useState(false)
 
   const handleNewChat = () => {
     setShowNewChat(true)
+  }
+
+  //AUTENTICAÇÃO DO LOGIN
+  const handleLoginData = async (u) => {
+    // PEGANDO OS DADOS DO USUARIO
+    let newUser = {
+      id: u.uid,
+      name: u.displayName,
+      avatar: u.photoURL
+    }
+    await Api.addUser(newUser)
+    setUser(newUser)
+  }
+
+  if (user === null) {
+    return <Login onReceive={handleLoginData} />
   }
 
   return (
@@ -64,7 +60,7 @@ export default () => {
               <DonutLarge style={{ color: '#919191' }} />
             </div>
             <div onClick={handleNewChat} className="cabecalhoBtn">
-              <Chat style={{ color: '#919191' }} />
+              <Chat style={{ color: '#919191' }}></Chat>
             </div>
             <div className="cabecalhoBtn">
               <MoreVert style={{ color: '#919191' }} />

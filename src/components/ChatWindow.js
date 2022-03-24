@@ -90,7 +90,6 @@ export default ({ user }) => {
       recognition.start()
     }
   }
-  const handleSendClick = () => {}
 
   return (
     <div className="chatWindow">
@@ -170,7 +169,7 @@ export default ({ user }) => {
             </div>
           )}
           {text !== '' && (
-            <div onClick={handleSendClick} className="chatWindow--btn">
+            <div className="chatWindow--btn">
               <Send></Send>
             </div>
           )}
