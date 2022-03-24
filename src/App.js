@@ -13,7 +13,7 @@ import Api from './Api'
 export default () => {
   const [chatlist, setChatList] = useState([])
   const [activeChat, setActiveChat] = useState({})
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(null)
   const [showNewChat, setShowNewChat] = useState(false)
 
   const handleNewChat = () => {
