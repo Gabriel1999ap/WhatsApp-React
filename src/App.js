@@ -16,6 +16,13 @@ export default () => {
   const [user, setUser] = useState(null)
   const [showNewChat, setShowNewChat] = useState(false)
 
+  useEffect(() => {
+    if (user !== null) {
+      let unsub = Api.onChatList(user.id, setChatList)
+      return unsub
+    }
+  })
+
   const handleNewChat = () => {
     setShowNewChat(true)
   }
@@ -84,7 +91,9 @@ export default () => {
         </div>
       </div>
       <div className="areaConteudo">
-        {activeChat.chatId !== undefined && <ChatWindow user={user} />}
+        {activeChat.chatId !== undefined && (
+          <ChatWindow user={user} data={activeChat} />
+        )}
         {activeChat.chatId === undefined && <ChatIntro />}
       </div>
     </div>

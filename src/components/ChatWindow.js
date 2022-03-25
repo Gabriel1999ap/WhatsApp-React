@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import EmojiPicker from 'emoji-picker-react'
 import './ChatWindow.css'
+import Api from '../Api'
 
 import MessageItem from './MessageItem'
 
@@ -16,7 +17,7 @@ import {
 } from '@material-ui/icons'
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default ({ user }) => {
+export default ({ user, data }) => {
   const body = useRef()
 
   let recognition = null
@@ -29,31 +30,14 @@ export default ({ user }) => {
   const [emojiOpen, setEmojiOpen] = useState(false)
   const [text, setText] = useState('')
   const [listening, setListening] = useState(false)
-  const [list, setList] = useState([
-    { author: 123, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
-    { author: 123, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
+  const [list, setList] = useState([])
+  const [users, setUsers] = useState([])
 
-    { author: 123, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla bla bla' },
-    { author: 1234, body: 'bla bla' },
-    { author: 1234, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
-    { author: 123, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
-    { author: 123, body: 'bla bla bla' },
-    { author: 123, body: 'bla bla' },
-
-    { author: 1234, body: 'bla bla bla bla' }
-  ])
+  useEffect(() => {
+    setList([])
+    let unsub = Api.onChatContent(data.chatId, setList, setUsers)
+    return unsub
+  }, [data.chatId])
 
   useEffect(() => {
     // para quando chegar mensagem a barra do scroll chegar no final do chat
@@ -91,6 +75,19 @@ export default ({ user }) => {
     }
   }
 
+  const handleInputKeyUp = (e) => {
+    if (e.keyCode == 13) {
+      handleSendClick()
+    }
+  }
+  const handleSendClick = () => {
+    if (text !== '') {
+      Api.sendMessage(data, user.id, 'text', text, users)
+      setText('')
+      setEmojiOpen(false)
+    }
+  }
+
   return (
     <div className="chatWindow">
       {/* header do chat com nome de usuario e avatar */}
@@ -99,10 +96,10 @@ export default ({ user }) => {
         <div className="chatWindow--headerinfo">
           <img
             className="chatWindow--avatar"
-            src="https://www.w3schools.com/howto/img_avatar.png"
+            src={data.image}
             alt="img avatar"
           />
-          <div className="chatWindow--name">Gabriel Almeida</div>
+          <div className="chatWindow--name">{data.title}</div>
         </div>
         {/* botões do header */}
 
@@ -159,6 +156,7 @@ export default ({ user }) => {
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            onKeyUp={handleInputKeyUp}
           />
         </div>
         {/*  Validação do emoji mic e botao enviar, ao escrever uma msg o emoji de mic troca automaticamente pelo emoji de enviar */}
@@ -169,7 +167,7 @@ export default ({ user }) => {
             </div>
           )}
           {text !== '' && (
-            <div className="chatWindow--btn">
+            <div onClick={handleSendClick} className="chatWindow--btn">
               <Send></Send>
             </div>
           )}
